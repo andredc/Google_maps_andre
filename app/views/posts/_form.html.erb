@@ -1,0 +1,31 @@
+<%= form_for(@post) do |f| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </div>
+    <div class="field">
+      <%= f.label :Address %><br>
+      <%= f.text_area :address %>
+    </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDIAWj6dRK3iiTYm4q23Vbe-Ina6hSQfd0&sensor=false&language=it" type="text/javascript"></script>

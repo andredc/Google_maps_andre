@@ -1,0 +1,64 @@
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <title>Google Maps API v3: Directions</title>
+  <style type="text/css">
+      html, body { margin:0; padding:0; width:100%; height:100%; }
+      body { background:#FFFFFF; color:#000000; font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:150%; text-align:center;}
+      #map { width:100%; height:95%; }
+      input { width:250px; }
+  </style>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDIAWj6dRK3iiTYm4q23Vbe-Ina6hSQfd0&sensor=false&language=it" type="text/javascript"></script>
+  <script type="text/javascript">
+      var directionDisplay;
+      var directionsService = new google.maps.DirectionsService();
+      var map;
+
+      function initialize() {
+
+         calcRoute();
+          directionsDisplay = new google.maps.DirectionsRenderer();
+          var myOptions = {
+              zoom:13,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+          }
+
+          map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+          directionsDisplay.setMap(map);
+
+          document.getElementById("submit").onclick = function() {
+              calcRoute();
+          }
+
+      }
+
+      function calcRoute() {
+          var partenza = document.getElementById("partenza").value;
+          var arrivo = document.getElementById("arrivo").value;
+          var request = {
+              origin:partenza,
+              destination:arrivo,
+              travelMode: google.maps.DirectionsTravelMode.DRIVING
+          };
+          directionsService.route(request, function(response, status) {
+              if (status == google.maps.DirectionsStatus.OK) {
+                  directionsDisplay.setDirections(response);
+              }
+          });
+      }
+      window.onload = initialize;
+  </script>
+</head>
+<body>
+<div>
+  <strong>Partenza: </strong>
+  <input type="text" id="partenza" value="<%= @post%>">
+  <strong>Arrivo: </strong>
+  <input type="text" id="arrivo" value="Via Zamboni - Bologna">
+  <input id="submit" type="button" value="trova percorso sulla mappa">
+</div>
+<div id="map" style="width:500px; height: 500px"></div>
+</body>
+</html>

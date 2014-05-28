@@ -1,0 +1,105 @@
+<!-- <p id="notice"><#%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <#%= @post.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <#%= @post.body %>
+</p>
+
+<#%= link_to 'Edit', edit_post_path(@post) %> |
+<#%= link_to 'Back', posts_path %>
+-->
+
+<div data-role="header">
+  <h1><%= @post.title %></h1>
+  <%= link_to 'Home', posts_path , 'data-icon' => 'home' , 'class' => 'ui-btn-left' , :target => '_parent'%>
+</div>
+
+
+
+<div data-role="content">
+
+    <%= form_for (@post) do |f| %>
+      <div class="field">
+        <strong><%= f.label :Body %></strong>
+        <%= f.text_field :body, :readonly => true %>
+      </div>
+      <br/>
+
+          <div class="field">
+            <strong><%= f.label :Address %></strong>
+            <%= f.text_field :address, :readonly => true %>
+          </div>
+
+  <% end %>
+
+</div>
+
+
+<html>
+<head>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDIAWj6dRK3iiTYm4q23Vbe-Ina6hSQfd0&sensor=false&language=it" type="text/javascript"></script>
+  <script type="text/javascript">
+      var directionDisplay;
+      var directionsService = new google.maps.DirectionsService();
+      var map;
+
+      function initialize() {
+
+          calcRoute();
+          directionsDisplay = new google.maps.DirectionsRenderer();
+          var myOptions = {
+              // zoom:6, // non cambia nulla...
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+          }
+
+          map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+
+          directionsDisplay.setMap(map);
+
+
+
+      }
+
+      function calcRoute() {
+          var geocoder = new google.maps.Geocoder();
+          var address = "<%= @post.address %>";
+
+          geocoder.geocode({'address': address}, function(result,status){
+              if(status == google.maps.GeocoderStatus.OK){
+
+                  var partenza =address;
+
+
+              }else{
+                  var partenza = "Catania , Italia"
+                  alert("geocode was not successful for the following reason : " + status )
+
+              }
+              var arrivo = "Catania , Italia"
+
+              var request = {
+                  origin:partenza,
+                  destination:arrivo,
+                  travelMode: google.maps.DirectionsTravelMode.DRIVING
+              };
+
+              directionsService.route(request, function(response, status) {
+                  if (status == google.maps.DirectionsStatus.OK) {
+                      directionsDisplay.setDirections(response);
+                  }
+              });
+          });
+      }
+      window.onload = initialize;
+  </script>
+</head>
+<body>
+
+<div id="map-canvas" style="width:500px; height: 500px"></div>
+</body>
+</html>
