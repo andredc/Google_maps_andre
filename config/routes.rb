@@ -1,6 +1,6 @@
 GoogleMapsAndre::Application.routes.draw do
   resources :users
-
+  get "map/loc"
   get "map/index"
   resources :posts
 root 'posts#index'
